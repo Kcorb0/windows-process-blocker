@@ -40,7 +40,7 @@ class AppBlocker:
 
 		remprocess_lbl = Label(master_frame, text="Remove process from blocked:", font=basic_font, width=26)
 		self.remprocess_inp = Entry(master_frame, width=30)
-		del_btn = Button(master_frame, text='Remove')
+		del_btn = Button(master_frame, text='Remove', command=self.remove_process)
 
 		show_btn = Button(master_frame, text='View List')
 		run_btn = Button(master_frame, text='Run Blocker', command=self.run_blocker)
@@ -69,9 +69,31 @@ class AppBlocker:
 			self.status_lbl['text'] = ""
 			self.status_lbl['text'] = "Input an application or process you want to block and click add. eg: 'steam.exe'"
 		else:
-			with open('blocked_apps.txt', 'w') as apps:
-				apps.write(f"\n{entry_txt}")
+			with open('blocked_apps.txt', 'w') as file:
+				file.write(f"{entry_txt}\n")
+				self.status_lbl['text'] = ""
+				self.status_lbl['text'] = f"Added {entry_txt} to block list."
 			self.newprocess_inp.delete(0, 'end')
+
+
+	def remove_process(self):
+		remove_txt = self.remprocess_inp.get()
+
+		with open('blocked_apps.txt', 'r') as file:
+			prev_apps = file.readlines()
+			apps = file.readlines()
+
+		with open('blocked_apps.txt', 'w') as file:
+			for app in apps:
+				if app.strip("\n") != remove_txt:
+					file.write(f"{app}\n")
+
+		if prev_apps == apps:
+			self.status_lbl['text'] = ""
+			self.status_lbl['text'] = f"Could not locate {remove_txt} in block list, please check the list and try again."
+
+		self.remprocess_inp.delete(0, 'end')
+
 
 
 	def run_blocker(self):
@@ -88,6 +110,8 @@ class AppBlocker:
 				for app in app_list:
 					os.system(f"taskkill /IM {app} /F")
 				time.sleep(5)
+
+
 
 
 
