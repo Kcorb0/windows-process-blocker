@@ -9,10 +9,10 @@ class AppBlocker:
 
 	def __init__(self, root):
 
-		root.title("Distraction Knight")
+		root.title("Distraction Shield")
+		root.iconbitmap('assets/logo.ico')
 		root.resizable(False, False)
 		root.minsize(500, 200)
-
 		self.run = True
 
 		basic_font = Font(
@@ -31,7 +31,7 @@ class AppBlocker:
 			underline=0,
 			overstrike=0)
 
-		master_frame = Frame(root, padding='.3i')
+		master_frame = Frame(root, padding='.2i')
 		master_frame.grid(row=0, column=0)
 
 		newprocess_lbl = Label(master_frame, text="Enter process to block:", font=basic_font, width=26)
@@ -45,20 +45,20 @@ class AppBlocker:
 		show_btn = Button(master_frame, text='View List')
 		run_btn = Button(master_frame, text='Run Blocker', command=self.run_blocker)
 
-		self.status_lbl = Label(master_frame, text="", width=33, font=alert_font, foreground='green')
+		self.status_lbl = Label(master_frame, text="", width=70, font=alert_font, foreground='green')
 
 
-		newprocess_lbl.grid(row=0, column=0, pady=(0, 20))
-		self.newprocess_inp.grid(row=0, column=1, pady=(0, 20))
-		add_btn.grid(row=0, column=2, pady=(0, 20), padx=(20,0))
-		remprocess_lbl.grid(row=1, column=0, pady=(0, 20))
-		self.remprocess_inp.grid(row=1, column=1, pady=(0, 20))
-		del_btn.grid(row=1, column=2, pady=(0, 20), padx=(20,0))
+		newprocess_lbl.grid(row=1, column=0, pady=(0, 20))
+		self.newprocess_inp.grid(row=1, column=1, pady=(0, 20))
+		add_btn.grid(row=1, column=2, pady=(0, 20), padx=(20,0))
+		remprocess_lbl.grid(row=2, column=0, pady=(0, 20))
+		self.remprocess_inp.grid(row=2, column=1, pady=(0, 20))
+		del_btn.grid(row=2, column=2, pady=(0, 20), padx=(20,0))
 
-		show_btn.grid(row=2, column=0, columnspan=3)
-		run_btn.grid(row=3, column=0, columnspan=3)
+		show_btn.grid(row=3, column=0, columnspan=3)
+		run_btn.grid(row=4, column=0, columnspan=3)
 
-		self.status_lbl.grid(row=4, column=0)
+		self.status_lbl.grid(row=5, column=0, columnspan=3, pady=(20,0), sticky='W')
 
 
 	def add_process(self):
@@ -67,7 +67,7 @@ class AppBlocker:
 
 		if len(entry_txt) == 0:
 			self.status_lbl['text'] = ""
-			self.status_lbl['text'] = "Enter a process to block"
+			self.status_lbl['text'] = "Input an application or process you want to block and click add. eg: 'steam.exe'"
 		else:
 			with open('blocked_apps.txt', 'w') as apps:
 				apps.write(f"\n{entry_txt}")
@@ -82,7 +82,7 @@ class AppBlocker:
 
 		if app_list == []:
 			self.status_lbl['text'] = ""
-			self.status_lbl['text'] = "Please add a process to block"
+			self.status_lbl['text'] = "Please add an application or process to block."
 		else:
 			while self.run:
 				for app in app_list:
