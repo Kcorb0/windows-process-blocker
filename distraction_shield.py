@@ -36,7 +36,8 @@ class AppBlocker:
         fstyle = ttk.Style()
         fstyle.configure('Frame.TFrame', background='#4E4449')
         lstyle = ttk.Style()
-        lstyle.configure('Label.TLabel', foreground='white', background='#4E4449')
+        lstyle.configure('Label.TLabel', foreground='white',
+                         background='#4E4449')
 
         master_frame = ttk.Frame(root, padding='.2i', style='Frame.TFrame')
         master_frame.grid(row=0, column=0)
