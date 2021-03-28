@@ -1,0 +1,2 @@
+steam.exe
+discord.exe
