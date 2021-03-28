@@ -4,6 +4,7 @@ import tkinter as tk
 from tkinter import ttk
 from tkinter.font import Font
 from PIL import Image, ImageTk
+import webbrowser
 
 
 class AppBlocker:
@@ -56,7 +57,7 @@ class AppBlocker:
                              command=self.remove_process)
         empty_btn = ttk.Button(
             btn_frame, text='Empty List', command=self.clear_list)
-        show_btn = ttk.Button(btn_frame, text='View List')
+        show_btn = ttk.Button(btn_frame, text='View List', command=self.view_list)
         run_btn = ttk.Button(btn_frame, text='Run Blocker', command=lambda: [
                              self.set_true(), self.run_blocker()])
         stop_btn = ttk.Button(
@@ -112,6 +113,9 @@ class AppBlocker:
             self.status_lbl['text'] = ""
             self.status_lbl['text'] = f"{remove_txt} removed from block list."
         self.remprocess_inp.delete(0, 'end')
+
+    def view_list(self):
+        webbrowser.open("blocked_apps.txt")
 
     def clear_list(self):
         with open('blocked_apps.txt', 'w'):
