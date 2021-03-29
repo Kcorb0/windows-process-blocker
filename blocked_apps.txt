@@ -1,2 +1,2 @@
 steam.exe
-discord.exe
+discord.py

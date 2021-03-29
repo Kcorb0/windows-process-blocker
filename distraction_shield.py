@@ -1,4 +1,5 @@
 import os
+import subprocess
 import time
 import tkinter as tk
 from tkinter import ttk
@@ -129,6 +130,7 @@ class AppBlocker:
 
     def run_blocker(self):
         """Kills all task processes specified within the blocked_apps.txt file"""
+
         with open('blocked_apps.txt', 'r') as apps:
             app_list = [i.replace('\n', "") for i in apps.readlines()]
 
@@ -137,9 +139,12 @@ class AppBlocker:
             self.status_lbl['text'] = "Please add an application or process to block."
 
         elif self.run:
+            self.status_lbl['text'] = ""
+            self.status_lbl['text'] = "Blocker activated!"
             for app in app_list:
-                os.system(f"taskkill /IM {app} /F")
+                subprocess.call(f"taskkill /IM {app} /F", shell=True)
             root.after(5000, self.run_blocker)
+
 
     def stop_blocker(self):
         """Stops the blocker from completing another loop"""
