@@ -24,7 +24,8 @@ class AppBlocker:
             weight='normal',
             slant='roman',
             underline=0,
-            overstrike=0)
+            overstrike=0
+        )
 
         alert_font = Font(
             family='roboto',
@@ -32,14 +33,16 @@ class AppBlocker:
             weight='normal',
             slant='roman',
             underline=0,
-            overstrike=0)
+            overstrike=0
+        )
 
         # TTK Style elements
+        bg = '#333a3b'
         fstyle = ttk.Style()
-        fstyle.configure('Frame.TFrame', background='#4E4449')
+        fstyle.configure('Frame.TFrame', background=bg)
         lstyle = ttk.Style()
         lstyle.configure('Label.TLabel', foreground='white',
-                         background='#4E4449')
+                         background=bg)
 
         master_frame = ttk.Frame(root, padding='.2i', style='Frame.TFrame')
         master_frame.grid(row=0, column=0)
@@ -58,7 +61,8 @@ class AppBlocker:
                              command=self.remove_process)
         empty_btn = ttk.Button(
             btn_frame, text='Empty List', command=self.clear_list)
-        show_btn = ttk.Button(btn_frame, text='View List', command=self.view_list)
+        show_btn = ttk.Button(btn_frame, text='View List',
+                              command=self.view_list)
         run_btn = ttk.Button(btn_frame, text='Run Blocker', command=lambda: [
                              self.set_true(), self.run_blocker()])
         stop_btn = ttk.Button(
@@ -144,7 +148,6 @@ class AppBlocker:
             for app in app_list:
                 subprocess.call(f"taskkill /IM {app} /F", shell=True)
             root.after(5000, self.run_blocker)
-
 
     def stop_blocker(self):
         """Stops the blocker from completing another loop"""

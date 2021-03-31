@@ -1,2 +1,0 @@
-steam.exe
-discord.py
