@@ -85,27 +85,31 @@ class AppBlocker:
         self.status_lbl.grid(row=5, column=0, columnspan=3,
                              pady=(20, 0), sticky='W')
 
+    def alert_message(self, alert_txt):
+        self.status_lbl['text'] = ""
+        self.status_lbl['text'] = alert_txt
+
     def add_process(self):
-        """Append user entry to blocked_apps.txt file and clear entry field"""
+        # Append user entry to blocked_apps.txt file and clear entry field
         entry_txt = self.newprocess_inp.get()
 
         if len(entry_txt) == 0:
-            self.status_lbl['text'] = ""
-            self.status_lbl['text'] = "Input an application or process you want to block and click add. eg: 'steam.exe'"
+            self.alert_message(
+                "Input an application or process you want to block and click add. eg: 'steam.exe'")
+
         else:
             with open('blocked_apps.txt', 'a') as file:
                 file.write(f"{entry_txt}\n")
-                self.status_lbl['text'] = ""
-                self.status_lbl['text'] = f"Added {entry_txt} to block list."
+                self.alert_message(f"Added {entry_txt} to block list.")
+
             self.newprocess_inp.delete(0, 'end')
 
     def remove_process(self):
-        """Removes a process or app from the block list"""
+        # Removes a process or app from the block list
         remove_txt = self.remprocess_inp.get()
 
         if len(remove_txt) == 0:
-            self.status_lbl['text'] = ""
-            self.status_lbl['text'] = f"Please enter an application or process that is in the block list."
+            self.alert_message(f"Please enter an application or process that is in the block list.")
         else:
             with open('blocked_apps.txt', 'r') as file:
                 apps = file.readlines()
@@ -115,8 +119,7 @@ class AppBlocker:
                     if app.strip("\n") != remove_txt:
                         new_file.write(app)
 
-            self.status_lbl['text'] = ""
-            self.status_lbl['text'] = f"{remove_txt} removed from block list."
+            self.alert_message(f"{remove_txt} removed from block list.")
         self.remprocess_inp.delete(0, 'end')
 
     def view_list(self):
@@ -125,36 +128,34 @@ class AppBlocker:
     def clear_list(self):
         with open('blocked_apps.txt', 'w'):
             pass
-        self.status_lbl['text'] = ""
-        self.status_lbl['text'] = f"All items in block list have been deleted."
+        self.alert_message("All items in block list have been deleted.")
 
     def set_true(self):
-        """Sets run to true so that run_blocker does not infinite loop"""
+        # Sets run to true so that run_blocker does not infinite loop
         self.run = True
 
     def run_blocker(self):
-        """Kills all task processes specified within the blocked_apps.txt file"""
+        # Kills all task processes specified within the blocked_apps.txt file
 
         with open('blocked_apps.txt', 'r') as apps:
             app_list = [i.replace('\n', "") for i in apps.readlines()]
 
         if app_list == []:
-            self.status_lbl['text'] = ""
-            self.status_lbl['text'] = "Please add an application or process to block."
+            self.alert_message(
+                "Please add an application or process to block.")
 
         elif self.run:
-            self.status_lbl['text'] = ""
-            self.status_lbl['text'] = "Blocker activated!"
+            self.alert_message("Blocker activated!")
+
             for app in app_list:
                 subprocess.call(f"taskkill /IM {app} /F", shell=True)
             root.after(5000, self.run_blocker)
 
     def stop_blocker(self):
-        """Stops the blocker from completing another loop"""
+        # Stops the blocker from completing another loop
         if self.run == True:
             self.run = False
-            self.status_lbl['text'] = ""
-            self.status_lbl['text'] = "Process blocker deactivated."
+            self.alert_message("Process blocker deactivated.")
 
 
 root = tk.Tk()
