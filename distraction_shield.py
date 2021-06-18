@@ -99,7 +99,7 @@ class AppBlocker:
         self.status_lbl["text"] = alert_txt
 
     def add_process(self):
-        """Append user entry to blocked_apps.txt file and clear entry field"""
+        # Append user entry to blocked_apps.txt file and clear entry field
         entry_txt = self.newprocess_inp.get()
 
         if len(entry_txt) == 0:
@@ -114,7 +114,7 @@ class AppBlocker:
             self.newprocess_inp.delete(0, "end")
 
     def remove_process(self):
-        """Removes a process or app from the block list"""
+        # Removes a process or app from the block list
         remove_txt = self.remprocess_inp.get()
 
         if len(remove_txt) == 0:
@@ -140,11 +140,11 @@ class AppBlocker:
         self.alert_message("All items in block list have been deleted.")
 
     def set_true(self):
-        """Sets run to true so that run_blocker does not infinite loop"""
+        # Sets run to true so that run_blocker does not infinite loop
         self.run = True
 
     def run_blocker(self):
-        """Kills all task processes specified within the blocked_apps.txt file"""
+        # Kills all task processes specified within the blocked_apps.txt file
 
         with open("blocked_apps.txt", "r") as apps:
             app_list = [i.replace("\n", "") for i in apps.readlines()]
@@ -159,7 +159,7 @@ class AppBlocker:
             root.after(5000, self.run_blocker)
 
     def stop_blocker(self):
-        """Stops the blocker from completing another loop"""
+        # Stops the blocker from completing another loop
         if self.run == True:
             self.run = False
             self.alert_message("Process blocker deactivated.")
